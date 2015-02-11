@@ -1,17 +1,17 @@
-ping "$DATABASE_HOST"
+ping "$DATABASE_HOST" -c 2
 res_ping="$?"
 
-if [ "$res" -ne 0 ] 
+if [ "$res_ping" -ne 0 ] 
 then
 	echo "Unable to connect to MongoDB at $DATABASE_HOST" > /dev/stderr
-	exit "$res"
+	exit "$res_ping"
 fi
 
 mongo --host "$DATABASE_HOST" --eval "db.testData.insert( { x : 1 } )"
 res_insert="$?"
 mongo --host "$DATABASE_HOST" --eval "db.testData.find()"
 res_find="$?"
-mongo --host "$DATABASE_HOST" --eval "db.testData.remove()"
+mongo --host "$DATABASE_HOST" --eval "db.testData.remove({x: 1})"
 res_remove="$?"
 
 if [ "$res_insert" -ne 0 ] 

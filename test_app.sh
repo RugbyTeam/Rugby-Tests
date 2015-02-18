@@ -7,9 +7,9 @@ then
 	exit "$ping_res"
 fi 
 
-http_req_okay=$(curl -sIL "$APPLICATION_HOST" | grep '^HTTP/1.1 2[0-9]\{2\}')
-if [ -z "$http_req_okay" ]
+http_res_success=$(curl -sIL "$APPLICATION_HOST" | grep '^HTTP/1.1 2[0-9]\{2\}')
+if [ -z "$http_res_success" ]
 then
-    echo "Application at $APPLICATION_HOST  did not respond with 2xx status request." > /dev/stderr
+    echo "Application at $APPLICATION_HOST did not respond with 2xx status request." > /dev/stderr
     exit 1
 fi
